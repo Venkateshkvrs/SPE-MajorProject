@@ -1,7 +1,7 @@
 FROM openjdk:latest
 
-COPY ./target/*.jar ./
+COPY ./backend/target/E-bill-pay-0.0.1-SNAPSHOT.jar ./
 
 WORKDIR ./
 
-CMD ["java", "-jar", "backend.jar"]
+CMD ["java", "-jar", "E-bill-pay-0.0.1-SNAPSHOT.jar"]

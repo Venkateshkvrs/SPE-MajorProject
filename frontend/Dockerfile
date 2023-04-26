@@ -1,6 +1,6 @@
 FROM node:alpine
 WORKDIR /frontend
-COPY ./package*.json ./
+COPY ./frontend/package*.json ./
 RUN npm install
 RUN npm install axios
 RUN npm install react-razorpay --save
