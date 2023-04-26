@@ -1,7 +1,7 @@
 FROM openjdk:latest
 
-WORKDIR /backend
+COPY ./target/*.jar ./
 
-COPY target/*.jar ./backend.jar
+WORKDIR ./
 
 CMD ["java", "-jar", "backend.jar"]
