@@ -1,5 +1,5 @@
 FROM node:alpine
-WORKDIR /E-Bill
+WORKDIR /frontend
 COPY ./package*.json ./
 RUN npm install
 RUN npm install axios
