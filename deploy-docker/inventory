@@ -1,1 +1,2 @@
 localhost ansible_user=venkatesh ansible_sudo_pass='1234'
+172.16.137.28 ansible_user=boppanavenkatesh ansible_sudo_pass='KVrsmck@21'
