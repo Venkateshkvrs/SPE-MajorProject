@@ -1,2 +1,1 @@
 192.168.64.4 ansible_user=venkatesh ansible_sudo_pass='1234'
-# 192.168.64.5 ansible_user=venky ansible_sudo_pass='1234'
