@@ -38,3 +38,8 @@ services:
     healthcheck:
       test: ["CMD","ls"]
     container_name: database-container
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      #      - MYSQL_DATABASE=EBillDataCenter
+    volumes:
+        - /opt/mysql_volume:/var/lib/mysql
