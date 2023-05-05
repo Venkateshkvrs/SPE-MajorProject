@@ -28,7 +28,7 @@ services:
       - MYSQL_ROOT_PASSWORD=password
     #      - MYSQL_DATABASE=EBillDataCenter
     volumes:
-      - /home/venkatesh/mysql_volume:/var/lib/mysql
+      - /home/ubuntu/mysql_volume:/var/lib/mysql
 
   ebill-frontend:
     image: venkateshkvrs/ebill-frontend
