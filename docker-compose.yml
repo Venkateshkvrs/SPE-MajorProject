@@ -8,7 +8,7 @@ services:
     #      fintrack:
     #        ipv4_address: 172.28.1.7
     environment:
-      - MYSQL_HOST=172.16.137.28
+      - MYSQL_HOST=192.168.64.4
       - MYSQL_PORT=3308
     depends_on:
       mydb:
