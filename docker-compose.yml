@@ -1,18 +1,4 @@
 services:
-  ebill-frontend:
-    image: venkateshkvrs/ebill-frontend
-    container_name: ebill-frontend
-    # Keep stdin_open because we don't want this container to exit immediately which it
-    # otherwise would have because there's no foreground processes
-    stdin_open: true
-    ports:
-      - "3000:3000"
-    #    networks:
-    #      fintrack:
-    #        ipv4_address: 172.28.1.6
-    depends_on:
-      - ebill-backend
-
   ebill-backend:
     image: venkateshkvrs/ebill-backend
     container_name: ebill-backend
@@ -27,9 +13,6 @@ services:
     depends_on:
       mydb:
         condition: service_healthy
-    # Using Docker volume for persisting logs
-    # ./backend/logs refers to the path /home/backend/logs on the host machine
-    # and we're linking it to logs folder on the container machine where Morgan logger logs its output
 
   mydb:
     image: mysql:latest
@@ -38,8 +21,25 @@ services:
     healthcheck:
       test: ["CMD","ls"]
     container_name: database-container
+    #    networks:
+    #      fintrack:
+    #        ipv4_address: 172.28.1.8
     environment:
       - MYSQL_ROOT_PASSWORD=password
-      #      - MYSQL_DATABASE=EBillDataCenter
+    #      - MYSQL_DATABASE=EBillDataCenter
     volumes:
-        - /opt/mysql_volume:/var/lib/mysql
+      - /home/venkatesh/mysql_volume:/var/lib/mysql
+
+  ebill-frontend:
+    image: venkateshkvrs/ebill-frontend
+    container_name: ebill-frontend
+    # Keep stdin_open because we don't want this container to exit immediately which it
+    # otherwise would have because there's no foreground processes
+    stdin_open: true
+    ports:
+      - "3000:3000"
+    #    networks:
+    #      fintrack:
+    #        ipv4_address: 172.28.1.6
+    depends_on:
+      - ebill-backend
