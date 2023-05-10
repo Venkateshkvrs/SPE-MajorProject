@@ -1,5 +1,5 @@
 // All the Service URL's are to be included here...
-let ipAddress = '192.168.64.4'
+let ipAddress = 'localhost'
 let portNumber = 5000;
 const configURL = {
     loginURL: `http://${ipAddress}:${portNumber}/login`,

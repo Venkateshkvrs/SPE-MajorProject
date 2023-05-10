@@ -1,45 +1,44 @@
+version: '3.9'
+networks:
+  ebill-network:
+volumes:
+  database-volume:
 services:
+  mydb:
+    image: mysql:latest
+    #    ports:
+    #      - "3308:3306"
+    healthcheck:
+      test: [ "CMD","ls" ]
+    container_name: database-container
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: EBillDataCenter
+    volumes:
+      - database-volume:/var/lib/mysql
+    networks:
+      - ebill-network
   ebill-backend:
     image: venkateshkvrs/ebill-backend
     container_name: ebill-backend
     ports:
       - "5000:5000"
-    #    networks:
-    #      fintrack:
-    #        ipv4_address: 172.28.1.7
     environment:
-      - MYSQL_HOST=192.168.64.4
-      - MYSQL_PORT=3308
+      MYSQL_URL: jdbc:mysql://mydb:3306/EBillDataCenter?createDatabaseIfNotExist=true
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: password
+    networks:
+      - ebill-network
     depends_on:
       mydb:
         condition: service_healthy
-
-  mydb:
-    image: mysql:latest
-    ports:
-      - "3308:3306"
-    healthcheck:
-      test: ["CMD","ls"]
-    container_name: database-container
-    #    networks:
-    #      fintrack:
-    #        ipv4_address: 172.28.1.8
-    environment:
-      - MYSQL_ROOT_PASSWORD=password
-    #      - MYSQL_DATABASE=EBillDataCenter
-    volumes:
-      - /home/ubuntu/mysql_volume:/var/lib/mysql
-
   ebill-frontend:
     image: venkateshkvrs/ebill-frontend
     container_name: ebill-frontend
-    # Keep stdin_open because we don't want this container to exit immediately which it
-    # otherwise would have because there's no foreground processes
     stdin_open: true
     ports:
       - "3000:3000"
-    #    networks:
-    #      fintrack:
-    #        ipv4_address: 172.28.1.6
+    networks:
+      - ebill-network
     depends_on:
       - ebill-backend
