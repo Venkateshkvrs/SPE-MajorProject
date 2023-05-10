@@ -24,7 +24,7 @@
         src: /var/lib/jenkins/workspace/Major/docker-compose.yml
         dest: /opt/docker-compose.yml
 
-#    - name: Start Docker Compose stack
-#      command: docker-compose up
-#      args:
-#        chdir: /opt/
+    - name: Start Docker Compose stack
+      command: docker-compose up -d
+      args:
+        chdir: /opt/
