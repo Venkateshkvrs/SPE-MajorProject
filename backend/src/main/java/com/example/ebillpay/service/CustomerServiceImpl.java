@@ -9,6 +9,7 @@ import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,8 @@ import java.util.List;
 import java.util.Random;
 
 @Service
+@Slf4j
+
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
     @Autowired
@@ -30,6 +33,7 @@ public class CustomerServiceImpl implements CustomerService {
     private final PaymentLogsRepository paymentLogsRepository;
     public Integer addCustomer(Customer customer){
         loginRepo.save(customer);
+        log.info("New Customer Registered. Cust.Id. Generated is:["+customer.getCustomerId()+"]");
         return customer.getCustomerId();
     }
 
@@ -44,8 +48,10 @@ public class CustomerServiceImpl implements CustomerService {
                     .firstName(customer.getFirstName())
                     .mobileNumber(customer.getMobileNumber())
                     .build();
+            log.info("Customer ["+customerDTO.getCustomerId()+"] Successfully Logged in to the system.");
             return customerDTO;
         }
+        log.info("Invalid Login attempted with credentials: ["+userName+"]");
         return null;
     }
 
@@ -63,6 +69,7 @@ public class CustomerServiceImpl implements CustomerService {
                     .build();
             connectionDTO.add(connectionDTO1);
         }
+        log.info("All Connections of Customer: ["+customerId+"] is requested and thus, sent.");
         return connectionDTO;
     }
 
@@ -74,6 +81,7 @@ public class CustomerServiceImpl implements CustomerService {
             if(billsLogs1.size()!=0)
                 billsLogs.addAll(billsLogs1);
         }
+        log.info("All Bills of Customer's Power Connections: ["+customerId+"] is requested and thus, sent.");
         return billsLogs;
     }
 
@@ -116,6 +124,7 @@ public class CustomerServiceImpl implements CustomerService {
                     .receiptId(builder.toString())
                     .build();
             orderRepository.save(orderPay);
+            log.info("Payment Order Request to Connection: ["+connectionId+"] and Amount: ["+amount+"] thus, made.");
             return order.toString();
         } catch (RazorpayException e) {
             System.out.println(e.getMessage());
@@ -141,20 +150,13 @@ public class CustomerServiceImpl implements CustomerService {
         orderRepository.save(orderPay);
 
         connectionRepository.payComplete(paymentLogsDTO.getConnectionId());
+        log.info("Payment Details saved for Order: ["+paymentLogs.getOrderId()+"] is Order Id.");
         return paymentLogs.getPaymentId();
     }
 
     public List<PaymentLogs> paymentHistory(Integer customerId){
         List<PaymentLogs> paymentLogs = paymentLogsRepository.paymentHistory(customerId);
-//        List<Integer> connectionId=connectionRepository.findByCustomerId(customerId);
-//        List<BillsLogs> billsLogs=new ArrayList<>();
-//        for(Integer i:connectionId){
-//            List<BillsLogs> billsLogs1=billsRepository.findByConnectionId(i);
-//            if(billsLogs1.size()!=0)
-//                billsLogs.addAll(billsLogs1);
-//        }
-//        return billsLogs;
-//        return paymentLogsRepository.paymentHistory(customerId);
+        log.info("All Payment Bills History of Customer's Power Connections: ["+customerId+"] is requested and thus, sent.");
         return paymentLogs;
     }
 }
