@@ -21,8 +21,8 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 public class AdminServicesImpl implements AdminServices{
 
-    @Autowired
-    private OfficerRepository officerRepository;
+
+    private final OfficerRepository officerRepository;
     public OfficerDTO loginOfficer(String userName, String password) {
         Officer officer = officerRepository.findOneByUserNameAndPassword(userName, password);
         if (officer != null) {
