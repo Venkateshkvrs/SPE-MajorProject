@@ -11,6 +11,7 @@ import com.example.ebillpay.repository.ConnectionRepository;
 import com.example.ebillpay.repository.LoginRepository;
 import com.example.ebillpay.repository.OfficerRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,8 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 @Service
+@Slf4j
+
 @RequiredArgsConstructor
 public class AdminServicesImpl implements AdminServices{
 
@@ -34,8 +37,10 @@ public class AdminServicesImpl implements AdminServices{
                     .officerId(officer.getOfficerId())
                     .role(officer.getRole())
                     .build();
+            log.info("Officer ["+officerDTO.getOfficerId()+"] Successfully Logged in to the system.");
             return officerDTO;
         }
+        log.info("Invalid Officer Login attempted with credentials: ["+userName+"]");
         return null;
     }
 
@@ -55,6 +60,7 @@ public class AdminServicesImpl implements AdminServices{
                 .build();
 //        System.out.println(connections);
         connectionRepository.save(connections);
+        log.info("New Connection Added to Cust.Id. ["+customerId+"], Generated connection-id:["+connections.getConnectionId()+"]");
         return connections.getConnectionId();
     }
 
@@ -77,6 +83,7 @@ public class AdminServicesImpl implements AdminServices{
 //        if(connections.getCharges()!=null)connectionCharges=connections.getCharges();
         Integer charges=connections.getCharges()+billsLogsDTO.getAmount();
         connectionRepository.updateCharges(connections.getConnectionId(),charges);
+        log.info("New Bill Added to Connection Id. ["+billsLogsDTO.getConnectionsId()+"], Generated bill-id:["+billsLogs.getBillslogsId()+"]");
 
         return billsLogs.getBillslogsId();
     }

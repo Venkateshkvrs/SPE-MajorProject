@@ -3,6 +3,7 @@ networks:
   ebill-network:
 volumes:
   database-volume:
+  logs:
 services:
   mydb:
     image: mysql:latest
@@ -27,6 +28,8 @@ services:
       MYSQL_URL: jdbc:mysql://mydb:3306/EBillDataCenter?createDatabaseIfNotExist=true
       MYSQL_USERNAME: root
       MYSQL_PASSWORD: password
+    volumes:
+      - logs:/logs
     networks:
       - ebill-network
     depends_on:
