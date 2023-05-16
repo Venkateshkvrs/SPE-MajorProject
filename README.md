@@ -1,2 +1,2 @@
 # SPE-MajorProject
-E-Bill Pay
+E-Bill Pay Devops Application
