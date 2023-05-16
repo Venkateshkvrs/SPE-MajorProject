@@ -6,15 +6,7 @@ RUN npm install axios
 RUN npm install react-razorpay --save
 RUN npm install react-icons --save
 RUN npm install react-router-dom --save
+RUN npm install --save-dev jest
 COPY . .
-CMD [ "npm","start" ]
-#FROM node:15.13-alpine
-#WORKDIR /SPE-MajorProject
-#ENV PATH="./node_modules/.bin:$PATH"
-#RUN npm install axios
-#RUN npm install react-razorpay --save
-#RUN npm install react-icons --save
-#RUN npm install react-router-dom --save
-#COPY . .
-#RUN npm run build
-#CMD ["npm", "start"]
+# Run tests & Then start
+CMD [ "npm", "run", "test_start" ]
